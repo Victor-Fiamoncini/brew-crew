@@ -12,13 +12,25 @@ class SignIn extends StatefulWidget {
 
 class _SignInState extends State<SignIn> {
 	final AuthService _authService = AuthService();
-	String _email;
-	String _password;
+	final _formKey = GlobalKey<FormState>();
+	String _email = '';
+	String _password = '';
+	String _error = '';
 
 	void _whenToggleViewIsPressed() => widget.toggleView();
 
-	void _whenFormButtonIsPressed() async {
+	String _emailValidator(String value) => value.isEmpty ? 'Enter an email' : null;
 
+	String _passwordValidator(String value) =>
+		value.length < 6 ? 'Enter a password greater than 6 chars' : null;
+
+	void _whenFormButtonIsPressed() async {
+		if (_formKey.currentState.validate()) {
+			dynamic res = await _authService.signInWithEmailAndPassword(_email, _password);
+
+			if (res == null)
+				setState(() => _error = 'Could not sign in with those credentials');
+		}
 	}
 
 	@override
@@ -40,15 +52,18 @@ class _SignInState extends State<SignIn> {
 			body: Container(
 				padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
 				child: Form(
+					key: _formKey,
 					child: Column(
 						children: <Widget>[
 							SizedBox(height: 20),
 							TextFormField(
+								validator: _emailValidator,
 								onChanged: (String value) => setState(() => _email = value),
 							),
 							SizedBox(height: 20),
 							TextFormField(
 								obscureText: true,
+								validator: _passwordValidator,
 								onChanged: (String value) => setState(() => _password = value),
 							),
 							SizedBox(height: 20),
@@ -59,7 +74,9 @@ class _SignInState extends State<SignIn> {
 									style: TextStyle(color: Colors.white)
 								),
 								onPressed: _whenFormButtonIsPressed,
-							)
+							),
+							SizedBox(height: 20),
+							Text(_error, style: TextStyle(color: Colors.red, fontSize: 14))
 						],
 					),
 				),

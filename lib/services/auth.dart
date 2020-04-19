@@ -12,9 +12,9 @@ class AuthService {
 		return _auth.onAuthStateChanged.map((FirebaseUser user) => _createUserFromFirebaseUser(user));
 	}
 
-	Future<User> signInAnon() async {
+	Future<User> signUpWithEmailAndPassword(String email, String password) async {
 		try {
-			AuthResult res = await _auth.signInAnonymously();
+			AuthResult res = await _auth.createUserWithEmailAndPassword(email: email, password: password);
 			FirebaseUser user = res.user;
 
 			return _createUserFromFirebaseUser(user);
@@ -24,9 +24,9 @@ class AuthService {
 		}
 	}
 
-	Future<User> signUpWithEmailAndPassword(String email, String password) async {
+	Future<User> signInWithEmailAndPassword(String email, String password) async {
 		try {
-			AuthResult res = await _auth.createUserWithEmailAndPassword(email: email, password: password);
+			AuthResult res = await _auth.signInWithEmailAndPassword(email: email, password: password);
 			FirebaseUser user = res.user;
 
 			return _createUserFromFirebaseUser(user);

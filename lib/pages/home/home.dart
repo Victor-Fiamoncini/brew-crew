@@ -1,5 +1,7 @@
+import 'package:brew_crew/models/user.dart';
 import 'package:brew_crew/services/auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Home extends StatelessWidget {
 	final AuthService _auth = AuthService();
@@ -8,6 +10,8 @@ class Home extends StatelessWidget {
 
 	@override
 	Widget build(BuildContext context) {
+		final user = Provider.of<User>(context);
+
 		return Scaffold(
 			backgroundColor: Colors.brown[100],
 			appBar: AppBar(
@@ -22,6 +26,7 @@ class Home extends StatelessWidget {
 					)
 				],
 			),
+			body: Container(child: Text(user.uid.toString())),
 		);
 	}
 }
