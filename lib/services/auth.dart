@@ -1,4 +1,4 @@
-import 'package:brew_crew/pages/models/user.dart';
+import 'package:brew_crew/models/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService {
@@ -6,6 +6,10 @@ class AuthService {
 
 	User _userFromFirebaseUser(FirebaseUser user) {
 		return user != null ? User(uid: user.uid) : null;
+	}
+
+	Stream<User> get user {
+		return _auth.onAuthStateChanged.map((FirebaseUser user) => _userFromFirebaseUser(user));
 	}
 
 	Future<User> signInAnon() async {
@@ -17,6 +21,14 @@ class AuthService {
 		} catch (err) {
 			print(err.toString());
 			return null;
+		}
+	}
+
+	Future signOut() async {
+		try {
+			return await _auth.signOut();
+		} catch (err) {
+			print(err.toString());
 		}
 	}
 }
