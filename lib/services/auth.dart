@@ -4,12 +4,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 class AuthService {
 	final FirebaseAuth _auth = FirebaseAuth.instance;
 
-	User _userFromFirebaseUser(FirebaseUser user) {
+	User _createUserFromFirebaseUser(FirebaseUser user) {
 		return user != null ? User(uid: user.uid) : null;
 	}
 
 	Stream<User> get user {
-		return _auth.onAuthStateChanged.map((FirebaseUser user) => _userFromFirebaseUser(user));
+		return _auth.onAuthStateChanged.map((FirebaseUser user) => _createUserFromFirebaseUser(user));
 	}
 
 	Future<User> signInAnon() async {
@@ -17,7 +17,19 @@ class AuthService {
 			AuthResult res = await _auth.signInAnonymously();
 			FirebaseUser user = res.user;
 
-			return _userFromFirebaseUser(user);
+			return _createUserFromFirebaseUser(user);
+		} catch (err) {
+			print(err.toString());
+			return null;
+		}
+	}
+
+	Future<User> signUpWithEmailAndPassword(String email, String password) async {
+		try {
+			AuthResult res = await _auth.createUserWithEmailAndPassword(email: email, password: password);
+			FirebaseUser user = res.user;
+
+			return _createUserFromFirebaseUser(user);
 		} catch (err) {
 			print(err.toString());
 			return null;

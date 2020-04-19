@@ -1,38 +1,50 @@
 import 'package:brew_crew/services/auth.dart';
 import 'package:flutter/material.dart';
 
-class SignIn extends StatefulWidget {
+class SignUp extends StatefulWidget {
 	final Function toggleView;
 
-	SignIn({ this.toggleView });
+	SignUp({ this.toggleView });
 
 	@override
-	_SignInState createState() => _SignInState();
+	_SignUpState createState() => _SignUpState();
 }
 
-class _SignInState extends State<SignIn> {
+class _SignUpState extends State<SignUp> {
 	final AuthService _authService = AuthService();
-	String _email;
-	String _password;
+	final _formKey = GlobalKey<FormState>();
+	String _email = '';
+	String _password = '';
+	String _error = '';
 
 	void _whenToggleViewIsPressed() => widget.toggleView();
 
-	void _whenFormButtonIsPressed() async {
+	String _emailValidator(String value) => value.isEmpty ? 'Enter an email' : null;
 
+	String _passwordValidator(String value) =>
+		value.length < 6 ? 'Enter a password greater than 6 chars' : null;
+
+	void _whenFormButtonIsPressed() async {
+		if (_formKey.currentState.validate()) {
+			dynamic res = await _authService.signUpWithEmailAndPassword(_email, _password);
+
+			if (res == null)
+				setState(() => _error = 'Please supply a valid email');
+		}
 	}
 
 	@override
 	Widget build(BuildContext context) {
-		return Scaffold(
+				return Scaffold(
 			backgroundColor: Colors.brown[100],
 			appBar: AppBar(
 				backgroundColor: Colors.brown[300],
 				elevation: 0.0,
-				title: Text('Sign in'),
+				title: Text('Sign up'),
 				actions: <Widget>[
 					FlatButton.icon(
 						icon: Icon(Icons.person, color: Colors.white),
-						label: Text('Sign up', style: TextStyle(color: Colors.white)),
+						label: Text('Sign in', style: TextStyle(color: Colors.white)),
 						onPressed: _whenToggleViewIsPressed,
 					)
 				],
@@ -40,26 +52,31 @@ class _SignInState extends State<SignIn> {
 			body: Container(
 				padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
 				child: Form(
+					key: _formKey,
 					child: Column(
 						children: <Widget>[
 							SizedBox(height: 20),
 							TextFormField(
+								validator: _emailValidator,
 								onChanged: (String value) => setState(() => _email = value),
 							),
 							SizedBox(height: 20),
 							TextFormField(
 								obscureText: true,
+								validator: _passwordValidator,
 								onChanged: (String value) => setState(() => _password = value),
 							),
 							SizedBox(height: 20),
 							RaisedButton(
 								color: Colors.brown[600],
 								child: Text(
-									'Sign in',
+									'Register',
 									style: TextStyle(color: Colors.white)
 								),
 								onPressed: _whenFormButtonIsPressed,
-							)
+							),
+							SizedBox(height: 12),
+							Text(_error, style: TextStyle(color: Colors.red, fontSize: 14))
 						],
 					),
 				),
