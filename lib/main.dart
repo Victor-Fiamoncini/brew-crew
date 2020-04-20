@@ -19,7 +19,8 @@ class MyApp extends StatelessWidget {
 					primarySwatch: Colors.brown,
 					hintColor: Colors.brown,
 					textSelectionColor: Colors.brown,
-					textSelectionHandleColor: Colors.brown
+					textSelectionHandleColor: Colors.brown,
+					cursorColor: Colors.brown
 				),
 				home: Wrapper(),
 			),

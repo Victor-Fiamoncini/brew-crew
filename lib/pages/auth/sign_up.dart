@@ -71,8 +71,10 @@ class _SignUpState extends State<SignUp> {
 							TextFormField(
 								validator: _emailValidator,
 								onChanged: (String value) => setState(() => _email = value),
+								style: TextStyle(color: Colors.brown),
 								decoration: InputDecoration(
 									hintText: 'Email',
+									hintStyle: TextStyle(color: Colors.brown[300]),
 								),
 							),
 							SizedBox(height: 20),
@@ -80,8 +82,10 @@ class _SignUpState extends State<SignUp> {
 								obscureText: true,
 								validator: _passwordValidator,
 								onChanged: (String value) => setState(() => _password = value),
+								style: TextStyle(color: Colors.brown),
 								decoration: InputDecoration(
 									hintText: 'Password',
+									hintStyle: TextStyle(color: Colors.brown[300]),
 								),
 							),
 							SizedBox(height: 20),
