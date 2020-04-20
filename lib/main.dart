@@ -15,7 +15,11 @@ class MyApp extends StatelessWidget {
 				title: 'Brew Crew',
 				debugShowCheckedModeBanner: false,
 				theme: ThemeData(
-					primarySwatch: Colors.blue,
+					primaryColor: Colors.brown,
+					primarySwatch: Colors.brown,
+					hintColor: Colors.brown,
+					textSelectionColor: Colors.brown,
+					textSelectionHandleColor: Colors.brown
 				),
 				home: Wrapper(),
 			),

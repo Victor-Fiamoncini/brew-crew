@@ -1,4 +1,5 @@
 import 'package:brew_crew/services/auth.dart';
+import 'package:brew_crew/utils/loading.dart';
 import 'package:flutter/material.dart';
 
 class SignUp extends StatefulWidget {
@@ -13,6 +14,7 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
 	final AuthService _authService = AuthService();
 	final _formKey = GlobalKey<FormState>();
+	bool _loading = false;
 	String _email = '';
 	String _password = '';
 	String _error = '';
@@ -26,16 +28,20 @@ class _SignUpState extends State<SignUp> {
 
 	void _whenFormButtonIsPressed() async {
 		if (_formKey.currentState.validate()) {
+			setState(() => _loading = true);
 			dynamic res = await _authService.signUpWithEmailAndPassword(_email, _password);
 
 			if (res == null)
-				setState(() => _error = 'Please supply a valid email');
+				setState(() {
+					_error = 'Please supply a valid email';
+					_loading = false;
+				});
 		}
 	}
 
 	@override
 	Widget build(BuildContext context) {
-				return Scaffold(
+		return _loading ? Loading() : Scaffold(
 			backgroundColor: Colors.brown[100],
 			appBar: AppBar(
 				backgroundColor: Colors.brown[300],
@@ -59,12 +65,18 @@ class _SignUpState extends State<SignUp> {
 							TextFormField(
 								validator: _emailValidator,
 								onChanged: (String value) => setState(() => _email = value),
+								decoration: InputDecoration(
+									hintText: 'Email',
+								),
 							),
 							SizedBox(height: 20),
 							TextFormField(
 								obscureText: true,
 								validator: _passwordValidator,
 								onChanged: (String value) => setState(() => _password = value),
+								decoration: InputDecoration(
+									hintText: 'Password',
+								),
 							),
 							SizedBox(height: 20),
 							RaisedButton(
