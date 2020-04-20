@@ -82,7 +82,7 @@ class _SignInState extends State<SignIn> {
 							RaisedButton(
 								color: Colors.brown[600],
 								child: Text(
-									'Sign in',
+									'Login',
 									style: TextStyle(color: Colors.white)
 								),
 								onPressed: _whenFormButtonIsPressed,

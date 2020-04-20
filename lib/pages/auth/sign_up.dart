@@ -40,6 +40,12 @@ class _SignUpState extends State<SignUp> {
 	}
 
 	@override
+	void setState(Function fn) {
+    if (mounted)
+      super.setState(fn);
+  }
+
+	@override
 	Widget build(BuildContext context) {
 		return _loading ? Loading() : Scaffold(
 			backgroundColor: Colors.brown[100],
