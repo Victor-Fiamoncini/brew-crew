@@ -12,25 +12,15 @@ class SettingsForm extends StatefulWidget {
 class _SettingsFormState extends State<SettingsForm> {
 	final _formKey = GlobalKey<FormState>();
 	final List<String> sugars = ['0', '1', '2', '3', '4'];
-	String _currentName = '';
-	String _currentSugar = '0';
-	int _currentStrength = 100;
+	String _currentName;
+	String _currentSugar;
+	int _currentStrength;
 
 	String _nameValidator(String value) => value.isEmpty ? 'Enter an name' : null;
-
-	String _sugarsValidator(String value) => value.isEmpty ? 'Enter an sugar' : null;
-
-	String _strengthValidator(String value) => value.isEmpty ? 'Enter an sugar' : null;
 
 	void _whenDropdownButtonChange(String value) => setState(() => _currentSugar = value);
 
 	void _whenSliderChange(double value) => setState(() => _currentStrength = value.toInt());
-
-	void _whenFormButtonIsPressed() async {
-		print(_currentName);
-		print(_currentSugar);
-		print(_currentStrength);
-	}
 
 	@override
 	Widget build(BuildContext context) {
@@ -48,48 +38,64 @@ class _SettingsFormState extends State<SettingsForm> {
 							children: <Widget>[
 								Text(
 									'Update your brew settings',
-									style: TextStyle(fontSize: 18, color: Colors.white),
+									style: TextStyle(fontSize: 18, color: Colors.brown, fontWeight: FontWeight.bold),
 								),
-								SizedBox(height: 20),
+								SizedBox(height: 40),
 								TextFormField(
 									initialValue: userData.name,
 									validator: _nameValidator,
 									onChanged: (String value) => setState(() => _currentName = value),
-									cursorColor: Colors.white,
-									style: TextStyle(color: Colors.white),
+									cursorColor: Colors.brown,
+									style: TextStyle(color: Colors.brown),
 									decoration: InputDecoration(
 										hintText: 'Name',
-										hintStyle: TextStyle(color: Colors.white),
+										hintStyle: TextStyle(color: Colors.brown),
 									),
 								),
 								SizedBox(height: 20),
 								DropdownButtonFormField(
 									value: _currentSugar ?? userData.sugars,
 									onChanged: _whenDropdownButtonChange,
-									iconEnabledColor: Colors.white,
+									iconEnabledColor: Colors.brown,
 									isExpanded: true,
 									items: sugars.map((String sugar) => DropdownMenuItem(
 										value: sugar,
 										child: Text('$sugar', style: TextStyle(color: Colors.brown)),
 									)).toList(),
 								),
-								SizedBox(height: 20),
-								Slider(
-									min: 100,
-									max: 900,
-									divisions: 8,
-									activeColor: Colors.brown[(_currentStrength ?? userData.strength) >= 500 ? 600 : 400],
-									inactiveColor: Colors.brown[(_currentStrength ?? userData.strength) >= 500 ? 600 : 400],
-									value: (_currentStrength ?? userData.strength).toDouble(),
-									label: (_currentStrength ?? userData.strength).toString(),
-									onChanged: _whenSliderChange,
+								SizedBox(height: 40),
+								Container(
+									width: double.infinity,
+									child: Slider(
+										min: 100,
+										max: 900,
+										divisions: 8,
+										activeColor: Colors.brown[(_currentStrength ?? userData.strength) >= 500 ? 600 : 400],
+										inactiveColor: Colors.brown[(_currentStrength ?? userData.strength) >= 500 ? 600 : 400],
+										value: (_currentStrength ?? userData.strength).toDouble(),
+										label: (_currentStrength ?? userData.strength).toString(),
+										onChanged: _whenSliderChange,
+									),
 								),
-								SizedBox(height: 20),
-								RaisedButton(
-									color: Colors.white,
-									textColor: Colors.white,
-									child: Text('Update', style: TextStyle(color: Colors.brown)),
-									onPressed: _whenFormButtonIsPressed,
+								SizedBox(height: 30),
+								SizedBox(
+									width: double.infinity,
+									child: 	RaisedButton(
+										color: Colors.white,
+										textColor: Colors.white,
+										child: Text('Update', style: TextStyle(color: Colors.brown)),
+										onPressed: () async {
+											if (_formKey.currentState.validate()) {
+												await DatabaseService(uid: user.uid).updateUserData(
+													_currentSugar ?? userData.sugars,
+													_currentName ?? userData.name,
+													_currentStrength ?? userData.strength,
+												);
+
+												Navigator.pop(context);
+											}
+										},
+									),
 								)
 							],
 						),

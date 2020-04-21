@@ -16,7 +16,7 @@ class Home extends StatelessWidget {
 		void _showSettingsPanel() {
 			showModalBottomSheet(context: context, builder: (BuildContext context) => Container(
 				padding: EdgeInsets.symmetric(vertical: 20, horizontal: 60),
-				color: Colors.brown[300],
+				color: Colors.brown[50],
 				child: SettingsForm(),
 			));
 		}
