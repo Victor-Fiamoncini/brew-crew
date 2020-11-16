@@ -5,15 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class Wrapper extends StatelessWidget {
-	@override
-	Widget build(BuildContext context) {
-		final user = Provider.of<User>(context);
+  @override
+  Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
 
-		print(user);
-		if (user == null) {
-			return Auth();
-		} else {
-			return Home();
-		}
-	}
+    if (user == null) {
+      return Auth();
+    }
+
+    return Home();
+  }
 }
