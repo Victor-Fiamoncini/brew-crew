@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:brew_crew/pages/signin/signin.dart';
+import 'package:brew_crew/pages/sign_in/sign_in.dart';
 
 class Wrapper extends StatelessWidget {
   @override
