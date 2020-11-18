@@ -24,4 +24,12 @@ class FirebaseAuthService {
       throw 'Error to sign in anonymously, please, try again later';
     }
   }
+
+  Future<void> signOut() async {
+    try {
+      await _firebaseAuth.signOut();
+    } catch (e) {
+      throw 'Error to sign out, please, try again later';
+    }
+  }
 }
