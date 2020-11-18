@@ -1,5 +1,7 @@
-import 'package:brew_crew/styles/theme.dart';
+import 'package:brew_crew/services/firebase_auth_service.dart';
 import 'package:flutter/material.dart';
+
+import 'package:brew_crew/styles/theme.dart';
 
 class SignIn extends StatefulWidget {
   @override
@@ -7,6 +9,8 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
+  final _firebaseAuthService = FirebaseAuthService();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,7 +26,11 @@ class _SignInState extends State<SignIn> {
           horizontal: 50,
         ),
         child: RaisedButton(
-          onPressed: () {},
+          onPressed: () async {
+            final response = await _firebaseAuthService.signInAnonymously();
+
+            print(response.uid);
+          },
           child: const Text('Sign in anon'),
         ),
       ),
