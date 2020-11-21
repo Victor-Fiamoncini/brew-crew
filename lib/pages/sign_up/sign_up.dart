@@ -1,4 +1,8 @@
+import 'package:brew_crew/services/firebase_auth_service.dart';
 import 'package:flutter/material.dart';
+
+import 'package:brew_crew/styles/theme.dart';
+import 'package:flutter/services.dart';
 
 class SignUp extends StatefulWidget {
   @override
@@ -6,10 +10,75 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
+  final _firebaseAuthService = FirebaseAuthService();
+
+  String email = 'victor.fiamoncini@gmail.com';
+  String password = 'admin1234';
+
   @override
   Widget build(BuildContext context) {
-    return const SizedBox(
-      child: Text('SignUp'),
+    return Scaffold(
+      backgroundColor: colors['primary'],
+      appBar: AppBar(
+        backgroundColor: colors['secundary'],
+        elevation: 0,
+        title: const Text('Sign up to Brew Crew'),
+      ),
+      body: Container(
+        padding: const EdgeInsets.symmetric(
+          vertical: 20,
+          horizontal: 50,
+        ),
+        child: Form(
+          child: Column(
+            children: [
+              const SizedBox(height: 20),
+              TextFormField(
+                keyboardType: TextInputType.emailAddress,
+                decoration: InputDecoration(
+                  hintText: 'E-mail',
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: colors['secundary'],
+                      width: 2,
+                    ),
+                  ),
+                ),
+                onChanged: (value) {
+                  setState(() => email = value);
+                },
+              ),
+              const SizedBox(height: 20),
+              TextFormField(
+                obscureText: true,
+                keyboardType: TextInputType.text,
+                textCapitalization: TextCapitalization.words,
+                decoration: InputDecoration(
+                  hintText: 'Password',
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: colors['secundary'],
+                      width: 2,
+                    ),
+                  ),
+                ),
+                onChanged: (value) {
+                  setState(() => password = value);
+                },
+              ),
+              const SizedBox(height: 20),
+              RaisedButton(
+                color: colors['secundary'],
+                onPressed: () async {},
+                child: Text(
+                  'Sign Up',
+                  style: TextStyle(color: colors['white']),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
