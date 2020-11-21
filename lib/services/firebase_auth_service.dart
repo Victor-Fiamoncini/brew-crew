@@ -21,7 +21,7 @@ class FirebaseAuthService {
 
       return _serializeUserFromFirebase(user);
     } catch (e) {
-      throw 'Error to sign in anonymously, please, try again later';
+      throw 'Error to sign in anonymously, please, try again';
     }
   }
 
@@ -36,7 +36,22 @@ class FirebaseAuthService {
 
       return _serializeUserFromFirebase(user);
     } catch (e) {
-      throw 'Error to sign in with email and password, please, try again later';
+      throw 'Error to sign in with email and password, please, try again';
+    }
+  }
+
+  Future<User> signUpWithEmailAndPassword(String email, String password) async {
+    try {
+      final response = await _firebaseAuth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      final user = response.user;
+
+      return _serializeUserFromFirebase(user);
+    } catch (e) {
+      throw 'Error to sign up with email and password, please, try again';
     }
   }
 
@@ -44,7 +59,7 @@ class FirebaseAuthService {
     try {
       await _firebaseAuth.signOut();
     } catch (e) {
-      throw 'Error to sign out, please, try again later';
+      throw 'Error to sign out, please, try again';
     }
   }
 }

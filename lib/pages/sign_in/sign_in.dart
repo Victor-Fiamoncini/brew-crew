@@ -16,8 +16,9 @@ class SignIn extends StatefulWidget {
 class _SignInState extends State<SignIn> {
   final _firebaseAuthService = FirebaseAuthService();
   final _signInFormKey = GlobalKey<FormState>();
-  String email = 'victor.fiamoncini@gmail.com';
-  String password = 'admin1234';
+  String email;
+  String password;
+  String error = '';
 
   String _emailValidator(String value) {
     if (value.isEmpty || !value.contains('@')) {
@@ -35,8 +36,17 @@ class _SignInState extends State<SignIn> {
     return null;
   }
 
-  Future<void> _signInFormButtonPressed() {
-    if (_signInFormKey.currentState.validate()) {}
+  Future<void> _signInFormButtonPressed() async {
+    if (_signInFormKey.currentState.validate()) {
+      try {
+        await _firebaseAuthService.signInWithEmailAndPassword(
+          email,
+          password,
+        );
+      } catch (e) {
+        setState(() => error = e.toString());
+      }
+    }
   }
 
   @override
@@ -117,6 +127,15 @@ class _SignInState extends State<SignIn> {
                 child: Text(
                   'Sign In',
                   style: TextStyle(color: colors['white']),
+                ),
+              ),
+              const SizedBox(height: 12),
+              Text(
+                error,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: colors['error'],
+                  fontSize: 14,
                 ),
               ),
             ],
