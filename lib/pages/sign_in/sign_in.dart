@@ -5,15 +5,39 @@ import 'package:brew_crew/styles/theme.dart';
 import 'package:flutter/services.dart';
 
 class SignIn extends StatefulWidget {
+  const SignIn({this.toggleGuestView});
+
+  final Function toggleGuestView;
+
   @override
   _SignInState createState() => _SignInState();
 }
 
 class _SignInState extends State<SignIn> {
   final _firebaseAuthService = FirebaseAuthService();
-
+  final _signInFormKey = GlobalKey<FormState>();
   String email = 'victor.fiamoncini@gmail.com';
   String password = 'admin1234';
+
+  String _emailValidator(String value) {
+    if (value.isEmpty || !value.contains('@')) {
+      return 'Please, fill with some valid e-mail';
+    }
+
+    return null;
+  }
+
+  String _passwordValidator(String value) {
+    if (value.isEmpty || value.length < 6) {
+      return 'Please, fill a password with a 6 or more chars';
+    }
+
+    return null;
+  }
+
+  Future<void> _signInFormButtonPressed() {
+    if (_signInFormKey.currentState.validate()) {}
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +46,22 @@ class _SignInState extends State<SignIn> {
       appBar: AppBar(
         backgroundColor: colors['secundary'],
         elevation: 0,
-        title: const Text('Sign in to Brew Crew'),
+        title: const Text('Sign In to Brew Crew'),
+        actions: [
+          FlatButton.icon(
+            onPressed: () {
+              widget.toggleGuestView();
+            },
+            icon: Icon(
+              Icons.person,
+              color: colors['white'],
+            ),
+            label: Text(
+              'Sign Up',
+              style: TextStyle(color: colors['white']),
+            ),
+          )
+        ],
       ),
       body: Container(
         padding: const EdgeInsets.symmetric(
@@ -30,6 +69,7 @@ class _SignInState extends State<SignIn> {
           horizontal: 50,
         ),
         child: Form(
+          key: _signInFormKey,
           child: Column(
             children: [
               const SizedBox(height: 20),
@@ -44,6 +84,7 @@ class _SignInState extends State<SignIn> {
                     ),
                   ),
                 ),
+                validator: _emailValidator,
                 onChanged: (value) {
                   setState(() => email = value);
                 },
@@ -62,6 +103,7 @@ class _SignInState extends State<SignIn> {
                     ),
                   ),
                 ),
+                validator: _passwordValidator,
                 onChanged: (value) {
                   setState(() => password = value);
                 },
@@ -69,7 +111,9 @@ class _SignInState extends State<SignIn> {
               const SizedBox(height: 20),
               RaisedButton(
                 color: colors['secundary'],
-                onPressed: () async {},
+                onPressed: () async {
+                  await _signInFormButtonPressed();
+                },
                 child: Text(
                   'Sign In',
                   style: TextStyle(color: colors['white']),
