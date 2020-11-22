@@ -1,9 +1,14 @@
+import 'package:flutter/material.dart';
+
 import 'package:brew_crew/services/firebase_auth_service.dart';
 import 'package:brew_crew/styles/theme.dart';
-import 'package:flutter/material.dart';
 
 class Home extends StatelessWidget {
   final _firebaseAuthService = FirebaseAuthService();
+
+  Future<void> _signOutButtonPressed() async {
+    await _firebaseAuthService.signOut();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +21,7 @@ class Home extends StatelessWidget {
         actions: [
           FlatButton.icon(
             onPressed: () async {
-              await _firebaseAuthService.signOut();
+              await _signOutButtonPressed();
             },
             icon: const Icon(Icons.person),
             label: const Text('Logout'),

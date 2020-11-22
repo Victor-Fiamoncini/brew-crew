@@ -1,8 +1,9 @@
-import 'package:brew_crew/services/firebase_auth_service.dart';
 import 'package:flutter/material.dart';
 
+import 'package:brew_crew/widgets/loading.dart';
+
 import 'package:brew_crew/styles/theme.dart';
-import 'package:flutter/services.dart';
+import 'package:brew_crew/services/firebase_auth_service.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({this.toggleGuestView});
@@ -19,6 +20,7 @@ class _SignUpState extends State<SignUp> {
   String email;
   String password;
   String error = '';
+  bool loading = false;
 
   String _emailValidator(String value) {
     if (value.isEmpty || !value.contains('@')) {
@@ -38,19 +40,30 @@ class _SignUpState extends State<SignUp> {
 
   Future<void> _signUpFormButtonPressed() async {
     if (_signUpFormKey.currentState.validate()) {
+      setState(() => loading = true);
+
+      final cleanedEmail = email.trim();
+      final cleanedPassword = password.trim();
+
       try {
         await _firebaseAuthService.signUpWithEmailAndPassword(
-          email,
-          password,
+          cleanedEmail,
+          cleanedPassword,
         );
       } catch (e) {
         setState(() => error = e.toString());
       }
+
+      setState(() => loading = false);
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    if (loading) {
+      return Loading();
+    }
+
     return Scaffold(
       backgroundColor: colors['primary'],
       appBar: AppBar(

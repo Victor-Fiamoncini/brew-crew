@@ -13,18 +13,6 @@ class FirebaseAuthService {
     return _firebaseAuth.onAuthStateChanged.map(_serializeUserFromFirebase);
   }
 
-  Future<User> signInAnonymously() async {
-    try {
-      final response = await _firebaseAuth.signInAnonymously();
-
-      final user = response.user;
-
-      return _serializeUserFromFirebase(user);
-    } catch (e) {
-      throw 'Error to sign in anonymously, please, try again';
-    }
-  }
-
   Future<User> signInWithEmailAndPassword(String email, String password) async {
     try {
       final response = await _firebaseAuth.signInWithEmailAndPassword(

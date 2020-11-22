@@ -5,4 +5,5 @@ final colors = {
   'secundary': Colors.brown[400],
   'white': Colors.white,
   'error': Colors.red,
+  'success': Colors.green[300],
 };
