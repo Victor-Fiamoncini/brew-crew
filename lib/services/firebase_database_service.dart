@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'package:brew_crew/models/brew.dart';
+
 class FirebaseDatabaseService {
   FirebaseDatabaseService({this.uid});
 
@@ -18,7 +20,17 @@ class FirebaseDatabaseService {
     });
   }
 
-  Stream<QuerySnapshot> get brews {
-    return brewsCollection.snapshots();
+  List<Brew> _serializeBrewsFromQuerySnapshot(QuerySnapshot querySnapshot) {
+    return querySnapshot.documents.map((brew) {
+      return Brew(
+        name: brew.data['name'] as String ?? '',
+        sugars: brew.data['sugars'] as String ?? '',
+        strength: brew.data['strength'] as int ?? 0,
+      );
+    }).toList();
+  }
+
+  Stream<List<Brew>> get brews {
+    return brewsCollection.snapshots().map(_serializeBrewsFromQuerySnapshot);
   }
 }
