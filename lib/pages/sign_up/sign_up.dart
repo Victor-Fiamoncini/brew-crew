@@ -83,7 +83,7 @@ class _SignUpState extends State<SignUp> {
               'Sign In',
               style: TextStyle(color: colors['white']),
             ),
-          )
+          ),
         ],
       ),
       body: Container(
@@ -134,8 +134,8 @@ class _SignUpState extends State<SignUp> {
               const SizedBox(height: 20),
               RaisedButton(
                 color: colors['secundary'],
-                onPressed: () async {
-                  await _signUpFormButtonPressed();
+                onPressed: () {
+                  _signUpFormButtonPressed();
                 },
                 child: Text(
                   'Sign Up',

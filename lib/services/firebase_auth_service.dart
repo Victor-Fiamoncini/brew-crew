@@ -1,3 +1,4 @@
+import 'package:brew_crew/services/firebase_database_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:brew_crew/models/user.dart';
@@ -36,6 +37,14 @@ class FirebaseAuthService {
       );
 
       final user = response.user;
+
+      final firebaseDatabaseService = FirebaseDatabaseService(uid: user.uid);
+
+      await firebaseDatabaseService.updateUserBrewData(
+        '0',
+        'new crew member',
+        100,
+      );
 
       return _serializeUserFromFirebase(user);
     } catch (e) {

@@ -20,12 +20,12 @@ class Home extends StatelessWidget {
         elevation: 0,
         actions: [
           FlatButton.icon(
-            onPressed: () async {
-              await _signOutButtonPressed();
+            onPressed: () {
+              _signOutButtonPressed();
             },
             icon: const Icon(Icons.person),
             label: const Text('Logout'),
-          )
+          ),
         ],
       ),
     );
