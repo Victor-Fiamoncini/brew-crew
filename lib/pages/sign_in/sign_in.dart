@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:brew_crew/widgets/loading.dart';
 
 import 'package:brew_crew/services/firebase_auth_service.dart';
-import 'package:brew_crew/styles/theme.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({this.toggleGuestView});
@@ -65,9 +64,9 @@ class _SignInState extends State<SignIn> {
     }
 
     return Scaffold(
-      backgroundColor: colors['primary'],
+      backgroundColor: Colors.brown[100],
       appBar: AppBar(
-        backgroundColor: colors['secundary'],
+        backgroundColor: Colors.brown[400],
         elevation: 0,
         title: const Text('Sign In to Brew Crew'),
         actions: [
@@ -75,13 +74,13 @@ class _SignInState extends State<SignIn> {
             onPressed: () {
               widget.toggleGuestView();
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.person,
-              color: colors['white'],
+              color: Colors.white,
             ),
-            label: Text(
+            label: const Text(
               'Sign Up',
-              style: TextStyle(color: colors['white']),
+              style: TextStyle(color: Colors.white),
             ),
           ),
         ],
@@ -102,7 +101,7 @@ class _SignInState extends State<SignIn> {
                   hintText: 'E-mail',
                   focusedBorder: UnderlineInputBorder(
                     borderSide: BorderSide(
-                      color: colors['secundary'],
+                      color: Colors.brown[400],
                       width: 2,
                     ),
                   ),
@@ -121,7 +120,7 @@ class _SignInState extends State<SignIn> {
                   hintText: 'Password',
                   focusedBorder: UnderlineInputBorder(
                     borderSide: BorderSide(
-                      color: colors['secundary'],
+                      color: Colors.brown[400],
                       width: 2,
                     ),
                   ),
@@ -133,21 +132,21 @@ class _SignInState extends State<SignIn> {
               ),
               const SizedBox(height: 20),
               RaisedButton(
-                color: colors['secundary'],
+                color: Colors.brown[400],
                 onPressed: () {
                   _signInFormButtonPressed();
                 },
-                child: Text(
+                child: const Text(
                   'Sign In',
-                  style: TextStyle(color: colors['white']),
+                  style: TextStyle(color: Colors.white),
                 ),
               ),
               const SizedBox(height: 12),
               Text(
                 error,
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: colors['error'],
+                style: const TextStyle(
+                  color: Colors.red,
                   fontSize: 14,
                 ),
               ),

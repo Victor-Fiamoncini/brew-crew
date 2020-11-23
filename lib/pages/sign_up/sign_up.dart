@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:brew_crew/widgets/loading.dart';
 
-import 'package:brew_crew/styles/theme.dart';
 import 'package:brew_crew/services/firebase_auth_service.dart';
 
 class SignUp extends StatefulWidget {
@@ -65,9 +64,9 @@ class _SignUpState extends State<SignUp> {
     }
 
     return Scaffold(
-      backgroundColor: colors['primary'],
+      backgroundColor: Colors.brown[100],
       appBar: AppBar(
-        backgroundColor: colors['secundary'],
+        backgroundColor: Colors.brown[400],
         elevation: 0,
         title: const Text('Sign Up to Brew Crew'),
         actions: [
@@ -75,13 +74,13 @@ class _SignUpState extends State<SignUp> {
             onPressed: () {
               widget.toggleGuestView();
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.person,
-              color: colors['white'],
+              color: Colors.white,
             ),
-            label: Text(
+            label: const Text(
               'Sign In',
-              style: TextStyle(color: colors['white']),
+              style: TextStyle(color: Colors.white),
             ),
           ),
         ],
@@ -102,7 +101,7 @@ class _SignUpState extends State<SignUp> {
                   hintText: 'E-mail',
                   focusedBorder: UnderlineInputBorder(
                     borderSide: BorderSide(
-                      color: colors['secundary'],
+                      color: Colors.brown[400],
                       width: 2,
                     ),
                   ),
@@ -121,7 +120,7 @@ class _SignUpState extends State<SignUp> {
                   hintText: 'Password',
                   focusedBorder: UnderlineInputBorder(
                     borderSide: BorderSide(
-                      color: colors['secundary'],
+                      color: Colors.brown[400],
                       width: 2,
                     ),
                   ),
@@ -133,21 +132,21 @@ class _SignUpState extends State<SignUp> {
               ),
               const SizedBox(height: 20),
               RaisedButton(
-                color: colors['secundary'],
+                color: Colors.brown[400],
                 onPressed: () {
                   _signUpFormButtonPressed();
                 },
-                child: Text(
+                child: const Text(
                   'Sign Up',
-                  style: TextStyle(color: colors['white']),
+                  style: TextStyle(color: Colors.white),
                 ),
               ),
               const SizedBox(height: 12),
               Text(
                 error,
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: colors['error'],
+                style: const TextStyle(
+                  color: Colors.red,
                   fontSize: 14,
                 ),
               ),
