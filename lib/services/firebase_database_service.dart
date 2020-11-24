@@ -33,4 +33,20 @@ class FirebaseDatabaseService {
   Stream<List<Brew>> get brews {
     return brewsCollection.snapshots().map(_serializeBrewsFromQuerySnapshot);
   }
+
+  Brew _serializeBrewFromDocumentSnapshot(DocumentSnapshot documentSnapshot) {
+    return Brew(
+      uid: uid,
+      name: documentSnapshot.data['name'] as String ?? '',
+      sugars: documentSnapshot.data['sugars'] as String ?? '',
+      strength: documentSnapshot.data['strength'] as int ?? 0,
+    );
+  }
+
+  Stream<Brew> get brew {
+    return brewsCollection
+        .document(uid)
+        .snapshots()
+        .map(_serializeBrewFromDocumentSnapshot);
+  }
 }

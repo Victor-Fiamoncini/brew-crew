@@ -1,4 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'package:brew_crew/services/firebase_database_service.dart';
+import 'package:brew_crew/models/brew.dart';
+import 'package:brew_crew/models/user.dart';
+
+import 'package:brew_crew/widgets/loading.dart';
 
 class BrewSettings extends StatefulWidget {
   @override
@@ -20,57 +27,91 @@ class _BrewSettingsState extends State<BrewSettings> {
     return null;
   }
 
+  Future<void> _updateBrewFromButtonPressed(String userUid) async {
+    if (_updateBrewFormKey.currentState.validate()) {
+      final firebaseDatabaseService = FirebaseDatabaseService(uid: userUid);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: _updateBrewFormKey,
-      child: Column(
-        children: [
-          const Text(
-            'Update your brew settings',
-            style: TextStyle(fontSize: 18),
-          ),
-          const SizedBox(height: 20),
-          TextFormField(
-            keyboardType: TextInputType.emailAddress,
-            decoration: InputDecoration(
-              hintText: 'Name',
-              focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(
-                  color: Colors.brown[400],
-                  width: 2,
+    final user = Provider.of<User>(context);
+
+    return StreamBuilder<Brew>(
+      stream: FirebaseDatabaseService(uid: user.uid).brew,
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return Loading();
+        }
+
+        final brew = snapshot.data;
+
+        return Form(
+          key: _updateBrewFormKey,
+          child: Column(
+            children: [
+              const Text(
+                'Update your brew settings',
+                style: TextStyle(fontSize: 18),
+              ),
+              const SizedBox(height: 30),
+              TextFormField(
+                keyboardType: TextInputType.text,
+                initialValue: brew.name,
+                decoration: InputDecoration(
+                  hintText: 'Name',
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Colors.brown[400],
+                      width: 2,
+                    ),
+                  ),
+                ),
+                validator: _nameValidator,
+                onChanged: (value) {
+                  setState(() => _currentName = value);
+                },
+              ),
+              const SizedBox(height: 20),
+              DropdownButtonFormField<String>(
+                value: _currentSugars ?? brew.sugars,
+                items: sugars.map((sugar) {
+                  return DropdownMenuItem(
+                    value: sugar,
+                    child: Text('$sugar sugars'),
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  setState(() => _currentSugars = value);
+                },
+              ),
+              const SizedBox(height: 20),
+              Slider(
+                value: (_currentStrength ?? brew.strength).toDouble(),
+                activeColor: Colors.brown[_currentStrength ?? brew.strength],
+                inactiveColor: Colors.brown[_currentStrength ?? brew.strength],
+                min: 100,
+                max: 900,
+                divisions: 8,
+                onChanged: (value) {
+                  setState(() => _currentStrength = value.round());
+                },
+              ),
+              const SizedBox(height: 20),
+              RaisedButton(
+                color: Colors.brown[400],
+                onPressed: () {
+                  _updateBrewFromButtonPressed(user.uid);
+                },
+                child: const Text(
+                  'Update',
+                  style: TextStyle(color: Colors.white),
                 ),
               ),
-            ),
-            validator: _nameValidator,
-            onChanged: (value) {
-              setState(() => _currentName = value);
-            },
+            ],
           ),
-          const SizedBox(height: 20),
-          DropdownButtonFormField<String>(
-            value: _currentSugars ?? '0',
-            items: sugars.map((sugar) {
-              return DropdownMenuItem(
-                value: sugar,
-                child: Text('$sugar sugars'),
-              );
-            }).toList(),
-            onChanged: (value) {
-              setState(() => _currentSugars = value);
-            },
-          ),
-          const SizedBox(height: 20),
-          RaisedButton(
-            color: Colors.brown[400],
-            onPressed: () {},
-            child: const Text(
-              'Update',
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
