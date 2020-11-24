@@ -27,9 +27,22 @@ class _BrewSettingsState extends State<BrewSettings> {
     return null;
   }
 
-  Future<void> _updateBrewFromButtonPressed(String userUid) async {
+  Future<void> _updateBrewFromButtonPressed(
+    String uid,
+    String name,
+    String sugars,
+    int strength,
+  ) async {
     if (_updateBrewFormKey.currentState.validate()) {
-      final firebaseDatabaseService = FirebaseDatabaseService(uid: userUid);
+      final firebaseDatabaseService = FirebaseDatabaseService(uid: uid);
+
+      await firebaseDatabaseService.updateUserBrewData(
+        _currentSugars ?? sugars,
+        _currentName ?? name,
+        _currentStrength ?? strength,
+      );
+
+      Navigator.pop(context);
     }
   }
 
@@ -101,7 +114,12 @@ class _BrewSettingsState extends State<BrewSettings> {
               RaisedButton(
                 color: Colors.brown[400],
                 onPressed: () {
-                  _updateBrewFromButtonPressed(user.uid);
+                  _updateBrewFromButtonPressed(
+                    user.uid,
+                    brew.name,
+                    brew.sugars,
+                    brew.strength,
+                  );
                 },
                 child: const Text(
                   'Update',
