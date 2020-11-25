@@ -18,10 +18,13 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          primaryColor: Colors.brown[100],
-          accentColor: Colors.brown[400],
           fontFamily: 'Google',
           brightness: Brightness.light,
+          primaryColor: Colors.brown[100],
+          accentColor: Colors.brown[400],
+          hintColor: Colors.brown[500],
+          cursorColor: Colors.brown[500],
+          bottomAppBarColor: Colors.brown[400],
         ),
         home: Wrapper(),
       ),

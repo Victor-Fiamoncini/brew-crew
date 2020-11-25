@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import 'package:brew_crew/widgets/brew_app_bar.dart';
@@ -65,93 +66,116 @@ class _SignInState extends State<SignIn> {
     }
 
     return Scaffold(
+      resizeToAvoidBottomPadding: false,
       backgroundColor: Theme.of(context).primaryColor,
       appBar: BrewAppBar(),
-      // appBar: AppBar(
-      //   backgroundColor: Colors.brown[400],
-      //   elevation: 0,
-      //   title: const Text('Sign In to Brew Crew'),
-      //   actions: [
-      //     FlatButton.icon(
-      //       onPressed: () {
-      //         widget.toggleGuestView();
-      //       },
-      //       icon: const Icon(
-      //         Icons.person,
-      //         color: Colors.white,
-      //       ),
-      //       label: const Text(
-      //         'Sign Up',
-      //         style: TextStyle(color: Colors.white),
-      //       ),
-      //     ),
-      //   ],
-      // ),
       body: Container(
         padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 80),
         child: Column(
           children: [
-            Align(
-              alignment: Alignment.centerLeft,
+            Padding(
+              padding: const EdgeInsets.only(bottom: 60),
               child: Text(
                 'Brew Crew',
                 style: TextStyle(
                   color: Theme.of(context).accentColor,
-                  fontSize: 42,
+                  fontSize: 50,
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ),
-            const SizedBox(height: 100),
             Form(
               key: _signInFormKey,
               child: Column(
                 children: [
                   const SizedBox(height: 20),
-                  TextFormField(
-                    keyboardType: TextInputType.emailAddress,
-                    decoration: InputDecoration(
-                      hintText: 'E-mail',
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.brown[400],
-                          width: 2,
+                  Container(
+                    decoration: const BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black12,
+                          blurRadius: 25,
+                          offset: Offset(0, 10),
+                        ),
+                      ],
+                    ),
+                    child: TextFormField(
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: InputDecoration(
+                        hintText: 'E-mail',
+                        hintStyle: const TextStyle(fontSize: 20),
+                        filled: true,
+                        fillColor: Colors.brown[50],
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 20,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(26),
+                          borderSide: const BorderSide(
+                            width: 0,
+                            style: BorderStyle.none,
+                          ),
                         ),
                       ),
+                      validator: _emailValidator,
+                      onChanged: (value) {
+                        setState(() => email = value);
+                      },
                     ),
-                    validator: _emailValidator,
-                    onChanged: (value) {
-                      setState(() => email = value);
-                    },
                   ),
                   const SizedBox(height: 20),
-                  TextFormField(
-                    obscureText: true,
-                    keyboardType: TextInputType.text,
-                    textCapitalization: TextCapitalization.words,
-                    decoration: InputDecoration(
-                      hintText: 'Password',
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.brown[400],
-                          width: 2,
+                  Container(
+                    decoration: const BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black12,
+                          blurRadius: 25,
+                          offset: Offset(0, 10),
+                        ),
+                      ],
+                    ),
+                    child: TextFormField(
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: InputDecoration(
+                        hintText: 'Password',
+                        hintStyle: const TextStyle(fontSize: 20),
+                        filled: true,
+                        fillColor: Colors.brown[50],
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 20,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(26),
+                          borderSide: const BorderSide(
+                            width: 0,
+                            style: BorderStyle.none,
+                          ),
                         ),
                       ),
+                      validator: _passwordValidator,
+                      onChanged: (value) {
+                        setState(() => password = value);
+                      },
                     ),
-                    validator: _passwordValidator,
-                    onChanged: (value) {
-                      setState(() => password = value);
-                    },
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 32),
                   RaisedButton(
                     color: Colors.brown[400],
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 40,
+                      vertical: 20,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(26),
+                    ),
                     onPressed: () {
                       _signInFormButtonPressed();
                     },
                     child: const Text(
                       'Sign In',
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(color: Colors.white, fontSize: 20),
                     ),
                   ),
                   const SizedBox(height: 12),
@@ -163,6 +187,32 @@ class _SignInState extends State<SignIn> {
                       fontSize: 14,
                     ),
                   ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 30),
+            RichText(
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                    text: 'Not registered yet?',
+                    style: TextStyle(
+                      color: Theme.of(context).accentColor,
+                      fontSize: 14,
+                    ),
+                  ),
+                  TextSpan(
+                    text: ' Sign up here',
+                    style: TextStyle(
+                      color: Colors.brown[500],
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        widget.toggleGuestView();
+                      },
+                  )
                 ],
               ),
             ),
