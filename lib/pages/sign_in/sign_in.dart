@@ -101,6 +101,7 @@ class _SignInState extends State<SignIn> {
                     ),
                     child: TextFormField(
                       keyboardType: TextInputType.emailAddress,
+                      textInputAction: TextInputAction.next,
                       decoration: InputDecoration(
                         hintText: 'E-mail',
                         hintStyle: const TextStyle(fontSize: 20),
@@ -116,6 +117,11 @@ class _SignInState extends State<SignIn> {
                             width: 0,
                             style: BorderStyle.none,
                           ),
+                        ),
+                        errorStyle: const TextStyle(
+                          color: Colors.red,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                       validator: _emailValidator,
@@ -136,7 +142,12 @@ class _SignInState extends State<SignIn> {
                       ],
                     ),
                     child: TextFormField(
-                      keyboardType: TextInputType.emailAddress,
+                      keyboardType: TextInputType.text,
+                      obscureText: true,
+                      textInputAction: TextInputAction.go,
+                      onFieldSubmitted: (_) {
+                        _signInFormButtonPressed();
+                      },
                       decoration: InputDecoration(
                         hintText: 'Password',
                         hintStyle: const TextStyle(fontSize: 20),
@@ -153,6 +164,11 @@ class _SignInState extends State<SignIn> {
                             style: BorderStyle.none,
                           ),
                         ),
+                        errorStyle: const TextStyle(
+                          color: Colors.red,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                       validator: _passwordValidator,
                       onChanged: (value) {
@@ -167,6 +183,7 @@ class _SignInState extends State<SignIn> {
                       horizontal: 40,
                       vertical: 20,
                     ),
+                    elevation: 25,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(26),
                     ),
@@ -178,13 +195,14 @@ class _SignInState extends State<SignIn> {
                       style: TextStyle(color: Colors.white, fontSize: 20),
                     ),
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 40),
                   Text(
                     error,
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                       color: Colors.red,
-                      fontSize: 14,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ],
