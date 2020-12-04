@@ -1,8 +1,8 @@
+import 'package:brew_crew/widgets/dot_loading.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import 'package:brew_crew/widgets/brew_app_bar.dart';
-import 'package:brew_crew/widgets/loading.dart';
 
 import 'package:brew_crew/services/firebase_auth_service.dart';
 
@@ -61,10 +61,6 @@ class _SignInState extends State<SignIn> {
 
   @override
   Widget build(BuildContext context) {
-    if (loading) {
-      return Loading();
-    }
-
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       backgroundColor: Theme.of(context).primaryColor,
@@ -190,10 +186,12 @@ class _SignInState extends State<SignIn> {
                     onPressed: () {
                       _signInFormButtonPressed();
                     },
-                    child: const Text(
-                      'Sign In',
-                      style: TextStyle(color: Colors.white, fontSize: 20),
-                    ),
+                    child: loading
+                        ? DotLoading()
+                        : const Text(
+                            'Sign In',
+                            style: TextStyle(color: Colors.white, fontSize: 20),
+                          ),
                   ),
                   const SizedBox(height: 40),
                   Text(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:brew_crew/widgets/loading.dart';
+import 'package:brew_crew/widgets/screen_loading.dart';
 
 import 'package:brew_crew/services/firebase_auth_service.dart';
 
@@ -60,7 +60,7 @@ class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     if (loading) {
-      return Loading();
+      return ScreenLoading();
     }
 
     return Scaffold(

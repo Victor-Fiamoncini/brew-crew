@@ -5,7 +5,7 @@ import 'package:brew_crew/services/firebase_database_service.dart';
 import 'package:brew_crew/models/brew.dart';
 import 'package:brew_crew/models/user.dart';
 
-import 'package:brew_crew/widgets/loading.dart';
+import 'package:brew_crew/widgets/screen_loading.dart';
 
 class BrewSettings extends StatefulWidget {
   @override
@@ -54,7 +54,7 @@ class _BrewSettingsState extends State<BrewSettings> {
       stream: FirebaseDatabaseService(uid: user.uid).brew,
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
-          return Loading();
+          return ScreenLoading();
         }
 
         final brew = snapshot.data;
