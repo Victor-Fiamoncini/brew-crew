@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
-
 import 'package:brew_crew/models/brew.dart';
+import 'package:flutter/material.dart';
 
 class BrewItem extends StatelessWidget {
   const BrewItem({this.brew});

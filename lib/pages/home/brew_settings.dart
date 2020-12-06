@@ -1,11 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import 'package:brew_crew/services/firebase_database_service.dart';
 import 'package:brew_crew/models/brew.dart';
 import 'package:brew_crew/models/user.dart';
-
+import 'package:brew_crew/services/firebase_database_service.dart';
 import 'package:brew_crew/widgets/screen_loading.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class BrewSettings extends StatefulWidget {
   @override

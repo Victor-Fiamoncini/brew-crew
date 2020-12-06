@@ -1,7 +1,6 @@
+import 'package:brew_crew/models/user.dart';
 import 'package:brew_crew/services/firebase_database_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
-import 'package:brew_crew/models/user.dart';
 
 class FirebaseAuthService {
   final _firebaseAuth = FirebaseAuth.instance;
@@ -25,7 +24,7 @@ class FirebaseAuthService {
 
       return _serializeUserFromFirebase(user);
     } catch (e) {
-      throw 'Error to sign in with email and password, please, try again';
+      throw e.message;
     }
   }
 
@@ -48,7 +47,7 @@ class FirebaseAuthService {
 
       return _serializeUserFromFirebase(user);
     } catch (e) {
-      throw 'Error to sign up with email and password, please, try again';
+      throw e.message;
     }
   }
 
@@ -56,7 +55,7 @@ class FirebaseAuthService {
     try {
       await _firebaseAuth.signOut();
     } catch (e) {
-      throw 'Error to sign out, please, try again';
+      throw e.message;
     }
   }
 }

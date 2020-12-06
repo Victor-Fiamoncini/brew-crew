@@ -1,8 +1,7 @@
-import 'package:flutter/material.dart';
-
-import 'package:brew_crew/widgets/screen_loading.dart';
-
 import 'package:brew_crew/services/firebase_auth_service.dart';
+import 'package:brew_crew/widgets/brew_app_bar.dart';
+import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({this.toggleGuestView});
@@ -59,99 +58,176 @@ class _SignUpState extends State<SignUp> {
 
   @override
   Widget build(BuildContext context) {
-    if (loading) {
-      return ScreenLoading();
-    }
-
     return Scaffold(
-      backgroundColor: Colors.brown[100],
-      appBar: AppBar(
-        backgroundColor: Colors.brown[400],
-        elevation: 0,
-        title: const Text('Sign Up to Brew Crew'),
-        actions: [
-          FlatButton.icon(
-            onPressed: () {
-              widget.toggleGuestView();
-            },
-            icon: const Icon(
-              Icons.person,
-              color: Colors.white,
-            ),
-            label: const Text(
-              'Sign In',
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
-        ],
-      ),
+      resizeToAvoidBottomPadding: false,
+      backgroundColor: Theme.of(context).primaryColor,
+      appBar: BrewAppBar(),
       body: Container(
         padding: const EdgeInsets.symmetric(
-          vertical: 20,
-          horizontal: 50,
+          horizontal: 60,
+          vertical: 80,
         ),
-        child: Form(
-          key: _signUpFormKey,
-          child: Column(
-            children: [
-              const SizedBox(height: 20),
-              TextFormField(
-                keyboardType: TextInputType.emailAddress,
-                decoration: InputDecoration(
-                  hintText: 'E-mail',
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.brown[400],
-                      width: 2,
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(bottom: 60),
+              child: Text(
+                'Brew Crew',
+                style: TextStyle(
+                  color: Theme.of(context).accentColor,
+                  fontSize: 50,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            Form(
+              key: _signUpFormKey,
+              child: Column(
+                children: [
+                  const SizedBox(height: 20),
+                  Container(
+                    decoration: const BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black12,
+                          blurRadius: 25,
+                          offset: Offset(0, 10),
+                        ),
+                      ],
+                    ),
+                    child: TextFormField(
+                      keyboardType: TextInputType.emailAddress,
+                      textInputAction: TextInputAction.next,
+                      decoration: InputDecoration(
+                        hintText: 'E-mail',
+                        hintStyle: const TextStyle(fontSize: 20),
+                        filled: true,
+                        fillColor: Colors.brown[50],
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 20,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(26),
+                          borderSide: const BorderSide(
+                            width: 0,
+                            style: BorderStyle.none,
+                          ),
+                        ),
+                        errorStyle: const TextStyle(
+                          color: Colors.red,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      validator: _emailValidator,
+                      onChanged: (value) {
+                        setState(() => email = value);
+                      },
                     ),
                   ),
-                ),
-                validator: _emailValidator,
-                onChanged: (value) {
-                  setState(() => email = value);
-                },
-              ),
-              const SizedBox(height: 20),
-              TextFormField(
-                obscureText: true,
-                keyboardType: TextInputType.text,
-                textCapitalization: TextCapitalization.words,
-                decoration: InputDecoration(
-                  hintText: 'Password',
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.brown[400],
-                      width: 2,
+                  const SizedBox(height: 20),
+                  Container(
+                    decoration: const BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black12,
+                          blurRadius: 25,
+                          offset: Offset(0, 10),
+                        ),
+                      ],
+                    ),
+                    child: TextFormField(
+                      keyboardType: TextInputType.text,
+                      obscureText: true,
+                      textInputAction: TextInputAction.go,
+                      onFieldSubmitted: (_) => _signUpFormButtonPressed(),
+                      decoration: InputDecoration(
+                        hintText: 'Password',
+                        hintStyle: const TextStyle(fontSize: 20),
+                        filled: true,
+                        fillColor: Colors.brown[50],
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 20,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(26),
+                          borderSide: const BorderSide(
+                            width: 0,
+                            style: BorderStyle.none,
+                          ),
+                        ),
+                        errorStyle: const TextStyle(
+                          color: Colors.red,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      validator: _passwordValidator,
+                      onChanged: (value) {
+                        setState(() => password = value);
+                      },
                     ),
                   ),
-                ),
-                validator: _passwordValidator,
-                onChanged: (value) {
-                  setState(() => password = value);
-                },
+                  const SizedBox(height: 32),
+                  RaisedButton(
+                    color: Colors.brown[400],
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 40,
+                      vertical: 20,
+                    ),
+                    elevation: 25,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(26),
+                    ),
+                    onPressed: () => _signUpFormButtonPressed(),
+                    child: Text(
+                      loading ? '...' : 'Sign Up',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 40),
+                  Text(
+                    error,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      color: Colors.red,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(height: 20),
-              RaisedButton(
-                color: Colors.brown[400],
-                onPressed: () {
-                  _signUpFormButtonPressed();
-                },
-                child: const Text(
-                  'Sign Up',
-                  style: TextStyle(color: Colors.white),
-                ),
+            ),
+            const SizedBox(height: 30),
+            RichText(
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                    text: 'Already registered?',
+                    style: TextStyle(
+                      color: Theme.of(context).accentColor,
+                      fontSize: 14,
+                    ),
+                  ),
+                  TextSpan(
+                    text: ' Sign in here',
+                    style: TextStyle(
+                      color: Colors.brown[500],
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () => widget.toggleGuestView(),
+                  )
+                ],
               ),
-              const SizedBox(height: 12),
-              Text(
-                error,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  color: Colors.red,
-                  fontSize: 14,
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

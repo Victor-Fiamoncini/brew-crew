@@ -1,10 +1,7 @@
-import 'package:brew_crew/widgets/dot_loading.dart';
+import 'package:brew_crew/services/firebase_auth_service.dart';
+import 'package:brew_crew/widgets/brew_app_bar.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-
-import 'package:brew_crew/widgets/brew_app_bar.dart';
-
-import 'package:brew_crew/services/firebase_auth_service.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({this.toggleGuestView});
@@ -40,9 +37,9 @@ class _SignInState extends State<SignIn> {
   }
 
   Future<void> _signInFormButtonPressed() async {
-    if (_signInFormKey.currentState.validate()) {
-      setState(() => loading = true);
+    setState(() => loading = true);
 
+    if (_signInFormKey.currentState.validate()) {
       final cleanedEmail = email.trim();
       final cleanedPassword = password.trim();
 
@@ -54,9 +51,9 @@ class _SignInState extends State<SignIn> {
       } catch (e) {
         setState(() => error = e.toString());
       }
-
-      setState(() => loading = false);
     }
+
+    setState(() => loading = false);
   }
 
   @override
@@ -66,7 +63,10 @@ class _SignInState extends State<SignIn> {
       backgroundColor: Theme.of(context).primaryColor,
       appBar: BrewAppBar(),
       body: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 80),
+        padding: const EdgeInsets.symmetric(
+          horizontal: 60,
+          vertical: 80,
+        ),
         child: Column(
           children: [
             Padding(
@@ -141,9 +141,7 @@ class _SignInState extends State<SignIn> {
                       keyboardType: TextInputType.text,
                       obscureText: true,
                       textInputAction: TextInputAction.go,
-                      onFieldSubmitted: (_) {
-                        _signInFormButtonPressed();
-                      },
+                      onFieldSubmitted: (_) => _signInFormButtonPressed(),
                       decoration: InputDecoration(
                         hintText: 'Password',
                         hintStyle: const TextStyle(fontSize: 20),
@@ -183,15 +181,14 @@ class _SignInState extends State<SignIn> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(26),
                     ),
-                    onPressed: () {
-                      _signInFormButtonPressed();
-                    },
-                    child: loading
-                        ? DotLoading()
-                        : const Text(
-                            'Sign In',
-                            style: TextStyle(color: Colors.white, fontSize: 20),
-                          ),
+                    onPressed: () => _signInFormButtonPressed(),
+                    child: Text(
+                      loading ? '...' : 'Sign In',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                      ),
+                    ),
                   ),
                   const SizedBox(height: 40),
                   Text(
@@ -225,9 +222,7 @@ class _SignInState extends State<SignIn> {
                       fontWeight: FontWeight.bold,
                     ),
                     recognizer: TapGestureRecognizer()
-                      ..onTap = () {
-                        widget.toggleGuestView();
-                      },
+                      ..onTap = () => widget.toggleGuestView(),
                   )
                 ],
               ),

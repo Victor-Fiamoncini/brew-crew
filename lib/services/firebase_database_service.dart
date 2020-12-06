@@ -1,6 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'package:brew_crew/models/brew.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FirebaseDatabaseService {
   FirebaseDatabaseService({this.uid});
