@@ -1,5 +1,6 @@
 import 'package:brew_crew/services/firebase_auth_service.dart';
 import 'package:brew_crew/widgets/brew_app_bar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +14,7 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
-  final _firebaseAuthService = FirebaseAuthService();
+  final _firebaseAuthService = FirebaseAuthService(FirebaseAuth.instance);
   final _signInFormKey = GlobalKey<FormState>();
   String email;
   String password;

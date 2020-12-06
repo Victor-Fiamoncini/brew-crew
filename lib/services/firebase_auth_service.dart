@@ -3,13 +3,15 @@ import 'package:brew_crew/services/firebase_database_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class FirebaseAuthService {
-  final _firebaseAuth = FirebaseAuth.instance;
+  FirebaseAuthService(this._firebaseAuth);
+
+  final FirebaseAuth _firebaseAuth;
 
   User _serializeUserFromFirebase(FirebaseUser user) {
-    return user != null ? User(uid: user.uid) : null;
+    return user != null ? User(uid: user.uid, email: user.email) : null;
   }
 
-  Stream<User> get user {
+  Stream<User> get authStateChanges {
     return _firebaseAuth.onAuthStateChanged.map(_serializeUserFromFirebase);
   }
 
@@ -23,7 +25,7 @@ class FirebaseAuthService {
       final user = response.user;
 
       return _serializeUserFromFirebase(user);
-    } catch (e) {
+    } on AuthException catch (e) {
       throw e.message;
     }
   }
@@ -41,12 +43,12 @@ class FirebaseAuthService {
 
       await firebaseDatabaseService.updateUserBrewData(
         '0',
-        'new crew member',
+        user.displayName ?? user.email,
         100,
       );
 
       return _serializeUserFromFirebase(user);
-    } catch (e) {
+    } on AuthException catch (e) {
       throw e.message;
     }
   }
@@ -54,7 +56,7 @@ class FirebaseAuthService {
   Future<void> signOut() async {
     try {
       await _firebaseAuth.signOut();
-    } catch (e) {
+    } on AuthException catch (e) {
       throw e.message;
     }
   }

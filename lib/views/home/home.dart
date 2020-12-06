@@ -1,13 +1,14 @@
 import 'package:brew_crew/models/brew.dart';
-import 'package:brew_crew/pages/home/brew_list.dart';
-import 'package:brew_crew/pages/home/brew_settings.dart';
 import 'package:brew_crew/services/firebase_auth_service.dart';
 import 'package:brew_crew/services/firebase_database_service.dart';
+import 'package:brew_crew/views/home/brew_list.dart';
+import 'package:brew_crew/views/home/brew_settings.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class Home extends StatelessWidget {
-  final _firebaseAuthService = FirebaseAuthService();
+  final _firebaseAuthService = FirebaseAuthService(FirebaseAuth.instance);
 
   Future<void> _signOutButtonPressed() async {
     await _firebaseAuthService.signOut();

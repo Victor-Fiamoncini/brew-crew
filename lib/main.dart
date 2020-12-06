@@ -1,10 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
-
-import 'package:brew_crew/pages/wrapper.dart';
-import 'package:brew_crew/services/firebase_auth_service.dart';
 import 'package:brew_crew/models/user.dart';
+import 'package:brew_crew/services/firebase_auth_service.dart';
+import 'package:brew_crew/views/wrapper.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(MyApp());
@@ -14,7 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamProvider<User>.value(
-      value: FirebaseAuthService().user,
+      value: FirebaseAuthService(FirebaseAuth.instance).authStateChanges,
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
