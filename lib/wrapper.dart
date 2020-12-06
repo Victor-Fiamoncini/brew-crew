@@ -1,7 +1,7 @@
-import 'package:brew_crew/models/user.dart';
-import 'package:brew_crew/views/home/home.dart';
-import 'package:brew_crew/views/sign_in/sign_in.dart';
-import 'package:brew_crew/views/sign_up/sign_up.dart';
+import 'package:brew_crew/app/models/user.dart';
+import 'package:brew_crew/app/views/home.dart';
+import 'package:brew_crew/app/views/sign_in.dart';
+import 'package:brew_crew/app/views/sign_up.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

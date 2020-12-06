@@ -1,6 +1,6 @@
-import 'package:brew_crew/models/user.dart';
-import 'package:brew_crew/services/firebase_auth_service.dart';
-import 'package:brew_crew/views/wrapper.dart';
+import 'package:brew_crew/app/models/user.dart';
+import 'package:brew_crew/app/services/firebase_auth_service.dart';
+import 'package:brew_crew/wrapper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

@@ -1,7 +1,8 @@
-import 'package:brew_crew/models/brew.dart';
-import 'package:brew_crew/models/user.dart';
-import 'package:brew_crew/services/firebase_database_service.dart';
-import 'package:brew_crew/widgets/screen_loading.dart';
+import 'package:brew_crew/app/models/brew.dart';
+import 'package:brew_crew/app/models/user.dart';
+import 'package:brew_crew/app/services/firebase_database_service.dart';
+import 'package:brew_crew/app/validators/brew_settings_validator.dart';
+import 'package:brew_crew/app/widgets/screen_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -16,14 +17,6 @@ class _BrewSettingsState extends State<BrewSettings> {
   String _currentName;
   String _currentSugars;
   int _currentStrength;
-
-  String _nameValidator(String value) {
-    if (value.isEmpty) {
-      return 'Please, fill with some valid name';
-    }
-
-    return null;
-  }
 
   Future<void> _updateBrewFromButtonPressed(
     String uid,
@@ -78,7 +71,7 @@ class _BrewSettingsState extends State<BrewSettings> {
                     ),
                   ),
                 ),
-                validator: _nameValidator,
+                validator: BrewSettingsValidator.nameValidator,
                 onChanged: (value) {
                   setState(() => _currentName = value);
                 },

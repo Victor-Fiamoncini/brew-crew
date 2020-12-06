@@ -1,5 +1,6 @@
-import 'package:brew_crew/services/firebase_auth_service.dart';
-import 'package:brew_crew/widgets/brew_app_bar.dart';
+import 'package:brew_crew/app/services/firebase_auth_service.dart';
+import 'package:brew_crew/app/validators/sign_up_validator.dart';
+import 'package:brew_crew/app/widgets/brew_app_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -20,22 +21,6 @@ class _SignUpState extends State<SignUp> {
   String password;
   String error = '';
   bool loading = false;
-
-  String _emailValidator(String value) {
-    if (value.isEmpty || !value.contains('@')) {
-      return 'Please, fill with some valid e-mail';
-    }
-
-    return null;
-  }
-
-  String _passwordValidator(String value) {
-    if (value.isEmpty || value.length < 6) {
-      return 'Please, fill a password with a 6 or more chars';
-    }
-
-    return null;
-  }
 
   Future<void> _signUpFormButtonPressed() async {
     if (_signUpFormKey.currentState.validate()) {
@@ -121,7 +106,7 @@ class _SignUpState extends State<SignUp> {
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      validator: _emailValidator,
+                      validator: SignUpValidator.email,
                       onChanged: (value) {
                         setState(() => email = value);
                       },
@@ -165,7 +150,7 @@ class _SignUpState extends State<SignUp> {
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      validator: _passwordValidator,
+                      validator: SignUpValidator.password,
                       onChanged: (value) {
                         setState(() => password = value);
                       },

@@ -1,5 +1,5 @@
-import 'package:brew_crew/models/user.dart';
-import 'package:brew_crew/services/firebase_database_service.dart';
+import 'package:brew_crew/app/models/user.dart';
+import 'package:brew_crew/app/services/firebase_database_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class FirebaseAuthService {

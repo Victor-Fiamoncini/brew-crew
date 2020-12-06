@@ -1,5 +1,5 @@
-import 'package:brew_crew/models/brew.dart';
-import 'package:brew_crew/views/home/brew_item.dart';
+import 'package:brew_crew/app/models/brew.dart';
+import 'package:brew_crew/app/widgets/brew_item.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -15,9 +15,7 @@ class _BrewListState extends State<BrewList> {
 
     return ListView.builder(
       itemCount: brews.length,
-      itemBuilder: (context, index) {
-        return BrewItem(brew: brews[index]);
-      },
+      itemBuilder: (context, index) => BrewItem(brew: brews[index]),
     );
   }
 }

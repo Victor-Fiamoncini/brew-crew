@@ -1,8 +1,8 @@
-import 'package:brew_crew/models/brew.dart';
-import 'package:brew_crew/services/firebase_auth_service.dart';
-import 'package:brew_crew/services/firebase_database_service.dart';
-import 'package:brew_crew/views/home/brew_list.dart';
-import 'package:brew_crew/views/home/brew_settings.dart';
+import 'package:brew_crew/app/models/brew.dart';
+import 'package:brew_crew/app/services/firebase_auth_service.dart';
+import 'package:brew_crew/app/services/firebase_database_service.dart';
+import 'package:brew_crew/app/widgets/brew_list.dart';
+import 'package:brew_crew/app/widgets/brew_settings.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -75,7 +75,7 @@ class Home extends StatelessWidget {
         body: Container(
           decoration: const BoxDecoration(
             image: DecorationImage(
-              image: AssetImage('lib/assets/coffee_background.png'),
+              image: AssetImage('lib/app/assets/coffee_background.png'),
               fit: BoxFit.cover,
             ),
           ),

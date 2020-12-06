@@ -1,5 +1,6 @@
-import 'package:brew_crew/services/firebase_auth_service.dart';
-import 'package:brew_crew/widgets/brew_app_bar.dart';
+import 'package:brew_crew/app/services/firebase_auth_service.dart';
+import 'package:brew_crew/app/validators/sign_in_validator.dart';
+import 'package:brew_crew/app/widgets/brew_app_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -21,26 +22,10 @@ class _SignInState extends State<SignIn> {
   String error = '';
   bool loading = false;
 
-  String _emailValidator(String value) {
-    if (value.isEmpty || !value.contains('@')) {
-      return 'Please, fill with some valid e-mail';
-    }
-
-    return null;
-  }
-
-  String _passwordValidator(String value) {
-    if (value.isEmpty || value.length < 6) {
-      return 'Please, fill a password with a 6 or more chars';
-    }
-
-    return null;
-  }
-
   Future<void> _signInFormButtonPressed() async {
-    setState(() => loading = true);
-
     if (_signInFormKey.currentState.validate()) {
+      setState(() => loading = true);
+
       final cleanedEmail = email.trim();
       final cleanedPassword = password.trim();
 
@@ -52,9 +37,9 @@ class _SignInState extends State<SignIn> {
       } catch (e) {
         setState(() => error = e.toString());
       }
-    }
 
-    setState(() => loading = false);
+      setState(() => loading = false);
+    }
   }
 
   @override
@@ -121,7 +106,7 @@ class _SignInState extends State<SignIn> {
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      validator: _emailValidator,
+                      validator: SignInValidator.email,
                       onChanged: (value) {
                         setState(() => email = value);
                       },
@@ -165,7 +150,7 @@ class _SignInState extends State<SignIn> {
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      validator: _passwordValidator,
+                      validator: SignInValidator.password,
                       onChanged: (value) {
                         setState(() => password = value);
                       },
