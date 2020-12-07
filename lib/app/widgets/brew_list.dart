@@ -1,5 +1,5 @@
 import 'package:brew_crew/app/models/brew.dart';
-import 'package:brew_crew/app/widgets/brew_item.dart';
+import 'package:brew_crew/app/widgets/brew_list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -14,8 +14,9 @@ class _BrewListState extends State<BrewList> {
     final brews = Provider.of<List<Brew>>(context) ?? [];
 
     return ListView.builder(
+      physics: const BouncingScrollPhysics(),
       itemCount: brews.length,
-      itemBuilder: (context, index) => BrewItem(brew: brews[index]),
+      itemBuilder: (context, index) => BrewListItem(brew: brews[index]),
     );
   }
 }

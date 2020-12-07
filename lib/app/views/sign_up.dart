@@ -88,7 +88,7 @@ class _SignUpState extends State<SignUp> {
                         hintText: 'E-mail',
                         hintStyle: const TextStyle(fontSize: 20),
                         filled: true,
-                        fillColor: Colors.brown[50],
+                        fillColor: Colors.white,
                         contentPadding: const EdgeInsets.symmetric(
                           horizontal: 20,
                           vertical: 20,
@@ -132,7 +132,7 @@ class _SignUpState extends State<SignUp> {
                         hintText: 'Password',
                         hintStyle: const TextStyle(fontSize: 20),
                         filled: true,
-                        fillColor: Colors.brown[50],
+                        fillColor: Colors.white,
                         contentPadding: const EdgeInsets.symmetric(
                           horizontal: 20,
                           vertical: 20,

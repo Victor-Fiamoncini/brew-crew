@@ -1,6 +1,7 @@
 import 'package:brew_crew/app/models/brew.dart';
 import 'package:brew_crew/app/services/firebase_auth_service.dart';
 import 'package:brew_crew/app/services/firebase_database_service.dart';
+import 'package:brew_crew/app/widgets/brew_app_bar.dart';
 import 'package:brew_crew/app/widgets/brew_list.dart';
 import 'package:brew_crew/app/widgets/brew_settings.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -34,52 +35,81 @@ class Home extends StatelessWidget {
     return StreamProvider<List<Brew>>.value(
       value: FirebaseDatabaseService().brews,
       child: Scaffold(
-        backgroundColor: Colors.brown[100],
-        appBar: AppBar(
-          title: const Text('Brew Crew'),
-          backgroundColor: Colors.brown[400],
-          elevation: 0,
-          actions: [
-            FlatButton.icon(
-              onPressed: () {
-                _settingsButtonPressed(context);
-              },
-              icon: const Icon(
-                Icons.settings,
-                color: Colors.white,
-              ),
-              label: const Text(
-                'Settings',
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-            ),
-            FlatButton.icon(
-              onPressed: () {
-                _signOutButtonPressed();
-              },
-              icon: const Icon(
-                Icons.person,
-                color: Colors.white,
-              ),
-              label: const Text(
-                'Logout',
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          ],
-        ),
+        backgroundColor: Theme.of(context).primaryColor,
+        appBar: BrewAppBar(),
         body: Container(
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('lib/app/assets/coffee_background.png'),
-              fit: BoxFit.cover,
-            ),
+          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 32),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  RaisedButton(
+                    color: Colors.brown[400],
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 22,
+                      vertical: 18,
+                    ),
+                    elevation: 25,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(26),
+                    ),
+                    onPressed: () => _settingsButtonPressed(context),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Icon(
+                          Icons.settings,
+                          color: Colors.white,
+                        ),
+                        const SizedBox(width: 6),
+                        const Text(
+                          'Settings',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  RaisedButton(
+                    color: Colors.brown[400],
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 22,
+                      vertical: 18,
+                    ),
+                    elevation: 25,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(26),
+                    ),
+                    onPressed: () => _signOutButtonPressed(),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Icon(
+                          Icons.logout,
+                          color: Colors.white,
+                        ),
+                        const SizedBox(width: 6),
+                        const Text(
+                          'Logout',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              Expanded(
+                child: BrewList(),
+              )
+            ],
           ),
-          child: BrewList(),
         ),
       ),
     );
