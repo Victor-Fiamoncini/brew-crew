@@ -38,7 +38,7 @@ class Home extends StatelessWidget {
         backgroundColor: Theme.of(context).primaryColor,
         appBar: BrewAppBar(),
         body: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 32),
+          padding: const EdgeInsets.only(top: 32, left: 32, right: 32),
           child: Column(
             children: [
               Row(
@@ -47,8 +47,8 @@ class Home extends StatelessWidget {
                   RaisedButton(
                     color: Colors.brown[400],
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 22,
-                      vertical: 18,
+                      horizontal: 18,
+                      vertical: 14,
                     ),
                     elevation: 25,
                     shape: RoundedRectangleBorder(
@@ -76,8 +76,8 @@ class Home extends StatelessWidget {
                   RaisedButton(
                     color: Colors.brown[400],
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 22,
-                      vertical: 18,
+                      horizontal: 18,
+                      vertical: 14,
                     ),
                     elevation: 25,
                     shape: RoundedRectangleBorder(
@@ -104,10 +104,10 @@ class Home extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 22),
               Expanded(
                 child: BrewList(),
-              )
+              ),
             ],
           ),
         ),

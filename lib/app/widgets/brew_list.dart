@@ -15,6 +15,8 @@ class _BrewListState extends State<BrewList> {
 
     return ListView.builder(
       physics: const BouncingScrollPhysics(),
+      padding: const EdgeInsets.only(bottom: 16),
+      cacheExtent: (200 * brews.length).toDouble(),
       itemCount: brews.length,
       itemBuilder: (context, index) => BrewListItem(brew: brews[index]),
     );
