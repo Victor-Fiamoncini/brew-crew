@@ -17,16 +17,14 @@ class Home extends StatelessWidget {
 
   void _settingsButtonPressed(BuildContext context) {
     showModalBottomSheet(
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(26),
+          topRight: Radius.circular(26),
+        ),
+      ),
       context: context,
-      builder: (context) {
-        return Container(
-          padding: const EdgeInsets.symmetric(
-            vertical: 20,
-            horizontal: 60,
-          ),
-          child: BrewSettings(),
-        );
-      },
+      builder: (context) => BrewSettings(),
     );
   }
 

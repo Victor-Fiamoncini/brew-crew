@@ -7,7 +7,7 @@ class ScreenLoading extends StatelessWidget {
     return Container(
       color: Theme.of(context).primaryColor,
       child: Center(
-        child: SpinKitChasingDots(
+        child: SpinKitThreeBounce(
           color: Theme.of(context).accentColor,
         ),
       ),
