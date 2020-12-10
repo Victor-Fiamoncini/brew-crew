@@ -1,5 +1,5 @@
 class SignUpValidator {
-  static String email(String value) {
+  static String emailField(String value) {
     if (value.isEmpty || !value.contains('@')) {
       return 'Please, fill with some valid e-mail';
     }
@@ -7,7 +7,7 @@ class SignUpValidator {
     return null;
   }
 
-  static String password(String value) {
+  static String passwordField(String value) {
     if (value.isEmpty || value.length < 6) {
       return 'Please, fill a password with a 6 or more chars';
     }

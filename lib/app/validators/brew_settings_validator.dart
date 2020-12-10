@@ -1,23 +1,17 @@
 import 'package:brew_crew/app/constants/sugars.dart' as constants;
 
 class BrewSettingsValidator {
-  static String name(String value) {
-    if (value.isEmpty) {
-      return 'Please, fill with some valid name';
+  static void updateRequest(String name, String sugars, int strength) {
+    if (name.isEmpty || sugars.isEmpty || strength == null) {
+      throw 'Error to update brew settings, please, try again';
     }
 
-    return null;
-  }
-
-  static String sugars(String value) {
     final hasValidValue = constants.sugars.indexWhere(
-      (sugar) => sugar == value,
+      (currentSugars) => currentSugars == sugars,
     );
 
-    if (hasValidValue != -1) {
-      return 'Please, fill with some valid sugar value';
+    if (hasValidValue == -1) {
+      throw 'Error to update brew settings, please, try again';
     }
-
-    return null;
   }
 }

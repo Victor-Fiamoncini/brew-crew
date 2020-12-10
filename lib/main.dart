@@ -24,6 +24,7 @@ class MyApp extends StatelessWidget {
           hintColor: Colors.brown[500],
           cursorColor: Colors.brown[500],
           bottomAppBarColor: Colors.brown[400],
+          textSelectionHandleColor: Colors.brown[400],
         ),
         home: Wrapper(),
       ),

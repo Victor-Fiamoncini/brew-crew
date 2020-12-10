@@ -106,7 +106,7 @@ class _SignUpState extends State<SignUp> {
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      validator: SignUpValidator.email,
+                      validator: SignUpValidator.emailField,
                       onChanged: (value) {
                         setState(() => email = value);
                       },
@@ -150,7 +150,7 @@ class _SignUpState extends State<SignUp> {
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      validator: SignUpValidator.password,
+                      validator: SignUpValidator.passwordField,
                       onChanged: (value) {
                         setState(() => password = value);
                       },
