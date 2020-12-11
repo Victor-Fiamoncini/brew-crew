@@ -3,6 +3,7 @@ import 'package:brew_crew/app/models/brew.dart';
 import 'package:brew_crew/app/models/user.dart';
 import 'package:brew_crew/app/services/firebase_database_service.dart';
 import 'package:brew_crew/app/validators/brew_settings_validator.dart';
+import 'package:brew_crew/app/widgets/alert.dart';
 import 'package:brew_crew/app/widgets/screen_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -13,48 +14,44 @@ class BrewSettings extends StatefulWidget {
 }
 
 class _BrewSettingsState extends State<BrewSettings> {
-  String error;
   String _currentName;
   String _currentSugars;
   int _currentStrength;
 
   Future<void> _updateBrewFromButtonPressed(
+    BuildContext context,
     String uid,
     String name,
     String sugars,
     int strength,
   ) async {
     try {
-      BrewSettingsValidator.updateRequest(name, sugars, strength);
-
-      final firebaseDatabaseService = FirebaseDatabaseService(uid: uid);
-
-      await firebaseDatabaseService.updateUserBrewData(
+      BrewSettingsValidator.updateRequest(
         _currentSugars ?? sugars,
         _currentName ?? name,
         _currentStrength ?? strength,
       );
 
+      final firebaseDatabaseService = FirebaseDatabaseService(uid: uid);
+
+      await firebaseDatabaseService.updateUserBrewData(
+        _currentSugars ?? sugars,
+        _currentName ?? name.trim(),
+        _currentStrength ?? strength,
+      );
+
       Navigator.pop(context);
     } catch (e) {
-      setState(() => error = e.toString());
+      _showUpdateErrorDialog(context);
     }
   }
 
-  void _showErrorDialog(BuildContext context) {
+  void _showUpdateErrorDialog(BuildContext context) {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Update Error'),
-        content: Text(error),
-        actions: [
-          FlatButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: const Text('Close'),
-          ),
-        ],
+      builder: (context) => const Alert(
+        title: 'Update Settings Error',
+        content: 'Error to update your brew settings, place, try again later',
       ),
     );
   }
@@ -212,12 +209,15 @@ class _BrewSettingsState extends State<BrewSettings> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(26),
                     ),
-                    onPressed: () => _updateBrewFromButtonPressed(
-                      user.uid,
-                      brew.name,
-                      brew.sugars,
-                      brew.strength,
-                    ),
+                    onPressed: () {
+                      _updateBrewFromButtonPressed(
+                        context,
+                        user.uid,
+                        brew.name,
+                        brew.sugars,
+                        brew.strength,
+                      );
+                    },
                     child: const Text(
                       'Update',
                       style: TextStyle(
@@ -231,10 +231,6 @@ class _BrewSettingsState extends State<BrewSettings> {
               ),
             ),
           );
-        }
-
-        if (error != null) {
-          _showErrorDialog(context);
         }
 
         return Container(
